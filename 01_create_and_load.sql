@@ -1,16 +1,13 @@
--- ============================================================
--- SaaS Affiliate Revenue Analysis
--- Author: [Your Name]
--- Tool: MySQL
--- Description: Analyzes affiliate-driven customer revenue
---              for a SaaS platform across Aug 2025 - Jan 2026
--- ============================================================
+SaaS Affiliate Revenue Analysis
+Author: Ilqa Rabbani
+Tool: MySQL
+Description: Analyzes affiliate-driven customer revenue for a SaaS platform across Aug 2025 - Jan 2026
 
--- STEP 1: Create the database
+STEP 1: Create the database:
 CREATE DATABASE IF NOT EXISTS saas_affiliate_db;
 USE saas_affiliate_db;
 
--- STEP 2: Create the affiliates table
+STEP 2: Create the affiliates table:
 CREATE TABLE IF NOT EXISTS affiliates (
     affiliate_id    INT AUTO_INCREMENT PRIMARY KEY,
     affiliate_name  VARCHAR(100),
@@ -18,7 +15,7 @@ CREATE TABLE IF NOT EXISTS affiliates (
     poc             VARCHAR(100)  -- Point of Contact (internal manager)
 );
 
--- STEP 3: Create the leads table
+STEP 3: Create the leads table:
 CREATE TABLE IF NOT EXISTS leads (
     lead_id         INT AUTO_INCREMENT PRIMARY KEY,
     affiliate_id    INT,
@@ -28,8 +25,8 @@ CREATE TABLE IF NOT EXISTS leads (
     FOREIGN KEY (affiliate_id) REFERENCES affiliates(affiliate_id)
 );
 
--- STEP 4: Create the monthly_revenue table
--- Each row = one customer's revenue for one month
+STEP 4: Create the monthly_revenue table:
+#Each row = one customer's revenue for one month
 CREATE TABLE IF NOT EXISTS monthly_revenue (
     revenue_id      INT AUTO_INCREMENT PRIMARY KEY,
     customer_id     VARCHAR(50),
@@ -39,9 +36,7 @@ CREATE TABLE IF NOT EXISTS monthly_revenue (
     FOREIGN KEY (affiliate_id) REFERENCES affiliates(affiliate_id)
 );
 
--- ============================================================
--- STEP 5: Insert affiliate data
--- ============================================================
+STEP 5: Insert affiliate data:
 INSERT INTO affiliates (affiliate_name, affiliate_email, poc) VALUES
 ('Olivia Carter',   'olivia.carter@creatorhub.co',     'Daniel M'),
 ('Olivia Carter',   'olivia.carter@creatorhub.co',     'Sophia L'),
@@ -54,9 +49,7 @@ INSERT INTO affiliates (affiliate_name, affiliate_email, poc) VALUES
 ('Benjamin Scott',  'ben.scott@uscreatoralliance.co',  'Jack N'),
 ('Benjamin Scott',  'ben.scott@uscreatoralliance.co',  'Lily D');
 
--- ============================================================
--- STEP 6: Insert lead data
--- ============================================================
+STEP 6: Insert lead data:
 INSERT INTO leads (affiliate_id, lead_month, lead_email, customer_id) VALUES
 (1,  '2025-08-01', 'hannahrwallor@gmail.com',        'cst001a9f5872a4e11'),
 (2,  '2025-08-01', 'samanthacharlottestudio@gmail.com','cst002b7c4a60a5f22'),
@@ -69,10 +62,8 @@ INSERT INTO leads (affiliate_id, lead_month, lead_email, customer_id) VALUES
 (9,  '2025-12-01', 'williamcreativekoja@gmail.com',   'cst009z1ih502m96'),
 (10, '2025-12-01', 'paulycreator@creativeprince.co',  'cst010j3k261m3n10');
 
--- ============================================================
--- STEP 7: Insert monthly revenue data per customer
--- (0 = no payment that month, >0 = active/paying)
--- ============================================================
+STEP 7: Insert monthly revenue data per customer:
+#(0 = no payment that month, >0 = active/paying)
 INSERT INTO monthly_revenue (customer_id, affiliate_id, revenue_month, revenue_amount) VALUES
 -- Olivia Carter affiliates
 ('cst001a9f5872a4e11', 1, '2025-08-01', 0),
