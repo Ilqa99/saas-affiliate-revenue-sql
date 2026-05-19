@@ -1,14 +1,11 @@
--- ============================================================
--- SaaS Affiliate Revenue Analysis
--- FILE 2: Business Analysis Queries
--- ============================================================
+SaaS Affiliate Revenue Analysis
+FILE 2: Business Analysis Queries
 
 USE saas_affiliate_db;
 
--- ============================================================
--- QUERY 1: Total revenue generated per month
--- Business Question: Which month had the highest revenue?
--- ============================================================
+QUERY 1: Total revenue generated per month
+Question: Which month had the highest revenue?
+
 SELECT
     DATE_FORMAT(revenue_month, '%b %Y')     AS month,
     SUM(revenue_amount)                      AS total_revenue,
@@ -19,10 +16,8 @@ GROUP BY revenue_month
 ORDER BY revenue_month;
 
 
--- ============================================================
--- QUERY 2: Revenue contribution by affiliate
--- Business Question: Who are our top performing affiliates?
--- ============================================================
+QUERY 2: Revenue contribution by affiliate
+Question: Who are our top performing affiliates?
 SELECT
     a.affiliate_name,
     COUNT(DISTINCT mr.customer_id)           AS total_customers,
@@ -36,10 +31,9 @@ GROUP BY a.affiliate_name
 ORDER BY total_revenue DESC;
 
 
--- ============================================================
--- QUERY 3: Customer retention - active vs churned
--- Business Question: Which customers stopped paying?
--- ============================================================
+QUERY 3: Customer retention - active vs churned
+Question: Which customers stopped paying?
+
 SELECT
     customer_id,
     SUM(CASE WHEN revenue_amount > 0 THEN 1 ELSE 0 END) AS active_months,
@@ -82,10 +76,9 @@ FROM monthly_totals
 ORDER BY revenue_month;
 
 
--- ============================================================
--- QUERY 5: Average revenue per customer (ARPC) by affiliate
--- Business Question: Which affiliate brings highest-value customers?
--- ============================================================
+QUERY 5: Average revenue per customer (ARPC) by affiliate
+Question: Which affiliate brings highest-value customers?
+
 SELECT
     a.affiliate_name,
     COUNT(DISTINCT mr.customer_id)                        AS customers,
@@ -99,11 +92,9 @@ GROUP BY a.affiliate_name
 ORDER BY avg_revenue_per_customer DESC;
 
 
--- ============================================================
--- QUERY 6: Lead-to-revenue conversion timeline
--- Business Question: How many months after lead acquisition 
---                    does a customer start paying?
--- ============================================================
+QUERY 6: Lead-to-revenue conversion timeline
+Question: How many months after lead acquisition does a customer start paying?
+
 SELECT
     l.customer_id,
     a.affiliate_name,
@@ -119,10 +110,8 @@ GROUP BY l.customer_id, a.affiliate_name, l.lead_month
 ORDER BY months_to_convert;
 
 
--- ============================================================
--- QUERY 7: POC (Point of Contact) performance
--- Business Question: Which internal POC manages highest revenue?
--- ============================================================
+QUERY 7: POC (Point of Contact) performance
+Question: Which internal POC manages highest revenue?
 SELECT
     l.poc,
     COUNT(DISTINCT l.customer_id)                         AS leads_managed,
@@ -133,11 +122,8 @@ GROUP BY l.poc
 ORDER BY total_revenue_driven DESC
 LIMIT 5;
 
-
--- ============================================================
--- QUERY 8: Cumulative revenue growth over time
--- Business Question: What is our total platform revenue to date?
--- ============================================================
+QUERY 8: Cumulative revenue growth over time
+Question: What is our total platform revenue to date?
 WITH monthly_totals AS (
     SELECT
         revenue_month,
